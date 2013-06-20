@@ -1,4 +1,5 @@
 class ArticlesController < ApplicationController
+  before_filter :require_login, except: [:index, :show]
 
   def index
     @articles = Article.all
@@ -21,13 +22,6 @@ class ArticlesController < ApplicationController
     @comment.article_id = @article.id
   end
 
-  def destroy
-    @article = Article.find(params[:id])
-    @article.destroy
-    flash.notice = "Article '#{@article.title}' Deleted!"
-    redirect_to articles_path
-  end
-
   def edit
     @article = Article.find(params[:id])
   end
@@ -37,6 +31,13 @@ class ArticlesController < ApplicationController
     @article.update_attributes(params[:article])
     flash.notice = "Article '#{@article.title}' Updated!"
     redirect_to article_path(@article)
+  end
+  
+  def destroy
+    @article = Article.find(params[:id])
+    @article.destroy
+    flash.notice = "Article '#{@article.title}' Deleted!"
+    redirect_to articles_path
   end
 
 end

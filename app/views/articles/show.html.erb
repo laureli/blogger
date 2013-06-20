@@ -10,12 +10,17 @@
 <p><%= @article.body %></p>
 <br>
 <br>
-<%= render partial: 'comments/form' %>
 <br>
 <%= link_to "<< Back to Articles list", articles_path %>
-<%= link_to "edit", edit_article_path(@article) %>
-<%= link_to "delete", article_path(@article), method: :delete, confirm: "Are you sure you want to delete this article?" %>
 <br>
+<% if logged_in? %>
+  <div id="action_links">
+    <%= link_to "edit", edit_article_path(@article) %> | 
+    <%= link_to "delete", article_path(@article), method: :delete, confirm: "Are you sure you want to delete this article?" %>
+  </div>
+<% end %>
+<br>
+<%= render partial: 'comments/form' %>
 <br>
 <br>
 <h3>Comments (<%= @article.comments.size %>)</h3>
